@@ -46,7 +46,7 @@ for organization in organizations:
 
 """
 
-
+import json
 
 organizations=[]
 while(True):
@@ -62,11 +62,41 @@ while(True):
             'id':organization_id,
             'contacts':[]
         }
-        organizations.append(organization)
+        while(True):
+            response=input("add contacts? y/n")
+            if response=="y":
+                contact_name = input("contact name ")
+                contact_position = input ("contact position ")
+                contact_id = input("contact id ")
 
+                contact={
+                    'name':contact_name,
+                    'position':contact_position,
+                    'id':contact_id
+                }
+                organization['contacts'].append(contact)
+            elif response=="n":
+                break
+
+        organizations.append(organization)
+        
     elif response == '2':
         for organization in organizations:
             print(f" Organization\n {organization['name']} ({organization['id']})\n Adrese: {organization['address']}\n Kontaktu skaits: {len(organization['contacts'])}")
     elif response == '3':
+        data= {
+            "organizations":organizations
+        }
+        print("saving data")
+        file=open("organizations.json", "w")
+        json.dump(data, file, indent=4)
+        
+
         print("exit")
         exit()
+    else:
+        print("choose a number between 1 and 3")
+        continue
+
+
+
